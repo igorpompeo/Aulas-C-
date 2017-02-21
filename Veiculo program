@@ -1,0 +1,73 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Licenciamento
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Veiculo v;
+
+            while (true)
+            {
+                v = new Veiculo();
+                Console.WriteLine("Digite a placa: ");
+                v.placa = Console.ReadLine();
+                Console.WriteLine(v.mesLicenciamento());
+            }
+        }
+    }
+    class Veiculo
+    {
+        public string placa;
+
+        public string mesLicenciamento()
+        {
+            string ret = "";
+            if (this.placa.Length < 7)
+                return "Placa inválida.";
+            char a = this.placa.ToCharArray()[6];
+
+            switch (a)
+            {
+
+                case '1':
+                    ret = "abril";
+                    break;
+                case '2':
+                    ret = "maio";
+                    break;
+                case '3':
+                    ret = "junho";
+                    break;
+                case '4':
+                    ret = "julho";
+                    break;
+                case '5':
+                case '6':
+                    ret = "agosto";
+                    break;
+                case '7':
+                    ret = "setembro";
+                    break;
+                case '8':
+                    ret = "outubro";
+                    break;
+                case '0':
+                    ret = "dezembro e novembro";
+                    break;
+                case '9':
+                    ret = "novembro";
+                    break;
+                default:
+                    ret = "Caracter inválido";
+                    break;
+            }
+            return ret;
+        }
+    }
+}
