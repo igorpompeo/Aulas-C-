@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IMC
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Paciente p;
+            Paciente p2;
+
+            while(true){
+                p = new Paciente();
+                p2 = new Paciente();
+                Console.WriteLine("Digite seu peso: ");
+                p.peso = float.Parse(Console.ReadLine());
+                p.altura = 2;
+                Console.WriteLine("Digite sua altura: ");
+                p2.altura = float.Parse(Console.ReadLine());
+                p2.peso = 100;
+                Console.WriteLine("P - " + p.calculaIMC());
+                Console.WriteLine("P2 - " + p.calculaIMC());
+            }
+        }
+    }
+
+    class Paciente
+    {
+        public float peso;
+        public float altura;
+
+        public string calculaIMC()
+        {
+            float imc = this.peso / (this.altura * this.altura);
+
+            if (imc < 17)
+                return "Muito abaixo";
+            else if (imc >= 17 && imc < 18.5)
+                return "Abaixo";
+            else if (imc >= 18.5 && imc < 25)
+                return "Peso normal";
+            else if (imc >= 25 && imc < 30)
+                return "Acima do peso";
+            else if (imc >= 30 && imc < 35)
+                return "Obesidade";
+            else if (imc >= 35 && imc < 40)
+                return "Obesidade II";
+            else
+                return "Obesidade III";
+        }
+
+    }
+}
