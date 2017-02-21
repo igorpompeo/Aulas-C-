@@ -18,12 +18,14 @@ namespace IMC
                 p2 = new Paciente();
                 Console.WriteLine("Digite seu peso: ");
                 p.peso = float.Parse(Console.ReadLine());
-                p.altura = 2;
+                Console.WriteLine("Digite sua altura: ");
+                p.altura = float.Parse(Console.ReadLine());
                 Console.WriteLine("Digite sua altura: ");
                 p2.altura = float.Parse(Console.ReadLine());
-                p2.peso = 100;
+                Console.WriteLine("Digite seu peso: ");
+                p2.peso = float.Parse(Console.ReadLine());
                 Console.WriteLine("P - " + p.calculaIMC());
-                Console.WriteLine("P2 - " + p.calculaIMC());
+                Console.WriteLine("P2 - " + p2.calculaIMC());
             }
         }
     }
