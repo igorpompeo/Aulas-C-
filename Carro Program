@@ -1,0 +1,97 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AppCarro
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Carro carro1;
+            carro1 = new Carro();
+            Console.WriteLine("Digite a marca: ");
+            carro1.Marca = Console.ReadLine();
+            Console.WriteLine("Digite o modelo: ");
+            carro1.Modelo = Console.ReadLine();
+            Console.WriteLine("Digite o ano: ");
+            carro1.Ano = int.Parse(Console.ReadLine());
+
+            Carro carro2 = new Carro();
+            Console.WriteLine("Digite a marca: ");
+            carro2.Marca = Console.ReadLine();
+            Console.WriteLine("Digite o modelo: ");
+            carro2.Modelo = Console.ReadLine();
+            Console.WriteLine("Digite o ano: ");
+            carro2.Ano = int.Parse(Console.ReadLine());
+
+            Console.WriteLine(carro1.Imprimir());
+            Console.WriteLine(carro2.Imprimir());
+
+            Console.ReadKey();
+        }
+    }
+
+    class Carro
+    {
+        private string marca;
+        private string modelo;
+        private int ano;
+
+        public string Marca
+        {
+            get
+            {
+                return marca;
+            }
+
+            set
+            {
+                marca = value;
+            }
+        }
+
+        public string Modelo
+        {
+            get
+            {
+                return modelo;
+            }
+
+            set
+            {
+                modelo = value;
+            }
+        }
+
+        public int Ano
+        {
+            get
+            {
+                return ano;
+            }
+
+            set
+            {
+                ano = value;
+            }
+        }
+        public Carro (string marca, string modelo, int ano)
+        {
+            marca = this.marca;
+            modelo = this.modelo;
+            ano = this.ano;
+        }
+        public Carro()
+        {
+
+        }
+        
+        public string Imprimir()
+        {
+            return ("Marca: "+ marca + "\nModelo: "+ modelo +"\nAno: " + ano);
+        }
+    }
+}
