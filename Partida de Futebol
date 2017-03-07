@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Partida
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                Jogo x;
+                Console.WriteLine("Digite os gols");
+                x = new Jogo(
+                    int.Parse(Console.ReadLine()),
+                    int.Parse(Console.ReadLine()));
+                Console.WriteLine("Resultado: " + x.VerificaVencedor());
+            }
+        }
+    }
+    class Jogo
+    {
+        private int visitor;
+        private int home;
+
+        public int Visitor
+        {
+            get
+            {
+                return visitor;
+            }
+
+            set
+            {
+                visitor = value;
+            }
+        }
+
+        public int Home
+        {
+            get
+            {
+                return home;
+            }
+
+            set
+            {
+                home = value;
+            }
+        }
+
+        public Jogo(int visitante, int anfitriao)
+        {
+            this.visitor = visitante;
+            this.home = anfitriao;
+        }
+
+        public string VerificaVencedor()
+        {
+            if (this.visitor > this.home)
+                return "Visitante";
+            else if (this.home > this.visitor)
+                return "Anfitrião";
+            else
+                return "Empate";
+        }
+    }
+}
