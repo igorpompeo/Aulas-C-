@@ -18,7 +18,8 @@ namespace AppCarro
             carro1.Modelo = Console.ReadLine();
             Console.WriteLine("Digite o ano: ");
             carro1.Ano = int.Parse(Console.ReadLine());
-
+           
+            /*
             Carro carro2 = new Carro();
             Console.WriteLine("Digite a marca: ");
             carro2.Marca = Console.ReadLine();
@@ -26,9 +27,17 @@ namespace AppCarro
             carro2.Modelo = Console.ReadLine();
             Console.WriteLine("Digite o ano: ");
             carro2.Ano = int.Parse(Console.ReadLine());
+            */
 
             Console.WriteLine(carro1.Imprimir());
-            Console.WriteLine(carro2.Imprimir());
+            //Console.WriteLine(carro2.Imprimir());
+
+            Console.WriteLine("Quanto você quer acelerar? ");
+            carro1.Acelerar(int.Parse(Console.ReadLine()));
+            Console.WriteLine(carro1.imprimirVelo());
+            Console.WriteLine("Quer freiar? ");
+            carro1.Frear(Console.ReadLine().First());
+            Console.WriteLine(carro1.imprimirVelo());
 
             Console.ReadKey();
         }
@@ -39,6 +48,7 @@ namespace AppCarro
         private string marca;
         private string modelo;
         private int ano;
+        private int velocidadeAtual;
 
         public string Marca
         {
@@ -78,6 +88,20 @@ namespace AppCarro
                 ano = value;
             }
         }
+
+        public int VelocidadeAtual
+        {
+            get
+            {
+                return velocidadeAtual;
+            }
+
+            set
+            {
+                velocidadeAtual = value;
+            }
+        }
+
         public Carro (string marca, string modelo, int ano)
         {
             marca = this.marca;
@@ -86,12 +110,29 @@ namespace AppCarro
         }
         public Carro()
         {
-
         }
         
+        public void Acelerar(int velocidade)
+        {
+            velocidadeAtual += velocidade;
+        }
+
+        public void Frear(char freio)
+        {
+            if (freio == 's')
+            velocidadeAtual --;
+        }
+
         public string Imprimir()
         {
             return ("Marca: "+ marca + "\nModelo: "+ modelo +"\nAno: " + ano);
         }
+
+        public string imprimirVelo()
+        {
+            return ("Velocidade: " + velocidadeAtual);
+        }
+
+
     }
 }
