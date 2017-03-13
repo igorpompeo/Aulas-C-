@@ -10,62 +10,81 @@ namespace Partida
     {
         static void Main(string[] args)
         {
-            while (true)
-            {
-                Jogo x;
-                Console.WriteLine("Digite os gols");
-                x = new Jogo(
-                    int.Parse(Console.ReadLine()),
-                    int.Parse(Console.ReadLine()));
-                Console.WriteLine("Resultado: " + x.VerificaVencedor());
-            }
-        }
+            GerenciarPartidas partidas = new GerenciarPartidas();
+
+            Partida p1 = new Partida(2, 2);
+            Partida p2 = new Partida(5, 3);
+            Partida p3 = new Partida(0, 0);
+
+            //Grava as partidas na lista
+            partidas.Adicionar(p1);
+            partidas.Adicionar(p2);
+            partidas.Adicionar(p3);
+
+            Console.WriteLine("======================");
+            Console.WriteLine("Total de Empates: " + partidas.TotalEmpates());
+            Console.WriteLine("======================\n\n");
+
+            Console.WriteLine(partidas.Listar());
+
+            Console.ReadKey();
+        }                
     }
-    class Jogo
+    class Partida
     {
-        private int visitor;
-        private int home;
+        private int golsVis;
+        private int golslAnf;
 
-        public int Visitor
+        public Partida(int visitante, int anfitriao)
         {
-            get
-            {
-                return visitor;
-            }
-
-            set
-            {
-                visitor = value;
-            }
-        }
-
-        public int Home
-        {
-            get
-            {
-                return home;
-            }
-
-            set
-            {
-                home = value;
-            }
-        }
-
-        public Jogo(int visitante, int anfitriao)
-        {
-            this.visitor = visitante;
-            this.home = anfitriao;
+            this.golslAnf = anfitriao;
+            this.golsVis = visitante;
         }
 
         public string VerificaVencedor()
         {
-            if (this.visitor > this.home)
+            if (this.golsVis > this.golslAnf)
                 return "Visitante";
-            else if (this.home > this.visitor)
-                return "Anfitrião";
+            else if (this.golslAnf > this.golsVis)
+                return "Anfitriao";
             else
                 return "Empate";
+        }
+
+        public string Placar()
+        {
+            return golslAnf + "X" + golsVis;
+        }
+    }
+    class GerenciarPartidas
+    {
+        List<Partida> lista = new List<Partida>();
+        public void Adicionar (Partida p)
+        {
+            lista.Add(p);
+        }
+        public int TotalEmpates()
+        {
+            int total = 0;
+
+            foreach (Partida p in lista)
+            {
+                if (p.VerificaVencedor().ToUpper().Equals("EMPATE"))
+                {
+                    total++;
+                }
+            }
+            return total;
+        }
+        public string Listar()
+        {
+            string saida = "";
+            
+            foreach(Partida p in lista)
+            {
+                saida += p.Placar() + "\n\n";
+            }
+            return saida;
         }
     }
 }
