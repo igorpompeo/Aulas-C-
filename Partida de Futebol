@@ -13,7 +13,7 @@ namespace Partida
             GerenciarPartidas partidas = new GerenciarPartidas();
 
             Partida p1 = new Partida(2, 2);
-            Partida p2 = new Partida(5, 3);
+            Partida p2 = new Partida(1, 7);
             Partida p3 = new Partida(0, 0);
 
             //Grava as partidas na lista
@@ -103,7 +103,7 @@ namespace Partida
                     total++;
                 } 
             }
-            return (total / TotalPartidas()) * 100;
+            return ((float)total / TotalPartidas()) * 100;
         }
     }
 }
