@@ -1,0 +1,129 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AppCarro
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Gerencia gerencia = new Gerencia();
+
+            Carro car1 = new Carro();
+            Carro car2 = new Carro("VW", "Gol", 2010);
+            Carro car3 = new Carro("BMW", "X1", 2017);
+
+            gerencia.Adicionar(car1);
+            gerencia.Adicionar(car2);
+            gerencia.Adicionar(car3);
+
+            Console.WriteLine(gerencia.Listar());
+            Console.WriteLine("Total de carros por ano: "+gerencia.TotalPorAno(2010));
+
+            Console.WriteLine(car1.Imprimir());
+            Console.WriteLine(car2.Imprimir());
+
+            while (true)
+            {
+                Console.WriteLine("Digite o quanto quer acelerar:");
+                car1.Acelerar(int.Parse(Console.ReadLine()));
+                Console.WriteLine("Velocidade:" + car1.VelocidadeAtual);
+                car1.Frear();
+                car1.Frear();
+                car1.Frear();
+                Console.WriteLine("Velocidade depois de frear:" + car1.VelocidadeAtual);
+            }
+
+            Console.ReadKey();
+        }
+    }
+
+    class Carro
+    {
+        public string Marca { get; private set; }
+        public string Modelo { get; set; }
+        private int ano;
+        public int VelocidadeAtual { get; private set; }
+
+        public Carro()
+        {
+            this.Marca = "desconhecido";
+            this.Modelo = "desconhecido";
+            this.Ano = 1900;
+        }
+
+        public Carro(string marca, string modelo, int ano)
+        {
+            this.Marca = marca;
+            this.Modelo = modelo;
+            this.Ano = ano;
+        }
+
+        public int Ano
+        {
+            get
+            {
+                return ano;
+            }
+
+            set
+            {
+                DateTime data = DateTime.Now;
+                if (value <= data.Year)
+                    ano = value;
+                else
+                    ano = data.Year;
+            }
+        }
+
+        public string Imprimir()
+        {
+            return "Marca:" + this.Marca + " Modelo:" + this.Modelo + " Ano:" + this.Ano;
+        }
+
+        public void Acelerar(int veloc)
+        {
+            VelocidadeAtual = VelocidadeAtual + veloc;
+        }
+
+        public void Frear()
+        {
+            VelocidadeAtual = VelocidadeAtual - 1;
+        }
+    }
+    class Gerencia
+        {
+            List<Carro> lista = new List<Carro>();
+            public void Adicionar(Carro c)
+        {
+            lista.Add(c);
+        }
+            public int TotalPorAno(int ano)
+            {
+                int total = 0;
+
+                foreach (Carro c in lista)
+                {
+                    //Variavel.propriedade igual paramêtro
+                    if (c.Ano == ano)
+                    {
+                        total++;
+                    }
+                }
+                return total;
+            }
+            public string Listar()
+            {
+                string saida = "";
+
+                foreach (Carro c in lista)
+                {
+                    saida += c.Imprimir() + "\n";
+                }
+                return saida;
+            }
+        }
+    }
