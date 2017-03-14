@@ -26,6 +26,8 @@ namespace Partida
             Console.WriteLine("======================\n\n");
 
             Console.WriteLine(partidas.Listar());
+            Console.WriteLine("Total de Partidas: "+partidas.TotalPartidas());
+            Console.WriteLine("Percentual de vezes: "+partidas.Percentual());
 
             Console.ReadKey();
         }                
@@ -59,7 +61,7 @@ namespace Partida
     class GerenciarPartidas
     {
         List<Partida> lista = new List<Partida>();
-        public void Adicionar (Partida p)
+        public void Adicionar(Partida p)
         {
             lista.Add(p);
         }
@@ -79,12 +81,29 @@ namespace Partida
         public string Listar()
         {
             string saida = "";
-            
-            foreach(Partida p in lista)
+
+            foreach (Partida p in lista)
             {
                 saida += p.Placar() + "\n\n";
             }
             return saida;
+        }
+        public int TotalPartidas()
+        {
+            return lista.Count;
+        }
+        public float Percentual()
+        {
+            int total = 0;
+
+            foreach (Partida p in lista)
+            {
+                if (p.VerificaVencedor().ToUpper().Equals("ANFITRIAO"))
+                {
+                    total++;
+                } 
+            }
+            return (total / TotalPartidas()) * 100;
         }
     }
 }
