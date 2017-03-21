@@ -4,129 +4,71 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pessoa
+namespace Aluno
 {
     class Program
     {
         static void Main(string[] args)
         {
-            string nome, rua, compl;
-            int idade, num;
-            long cep;
+            List<Disciplina> lista = new List<Disciplina>();
+            Disciplina d1 = new Disciplina("Lab. Prog.", 4);
+            Disciplina d2 = new Disciplina("Estrut. Dados", 4);
+            Disciplina d3 = new Disciplina("Eng. Software", 4);
+            lista.Add(d1);
+            lista.Add(d2);
+            lista.Add(d3);
+            Aluno aluno = new Aluno("Aluno1", 23123123, lista);
 
-            Pessoa p;
-            Endereco e;
+            Console.WriteLine(aluno.Imprimir());
 
-            while (true)
-            {
-                Console.WriteLine("Digite o nome: ");
-                nome = Console.ReadLine();
-                Console.WriteLine("Digite a idade: ");
-                idade = int.Parse(Console.ReadLine());
-                Console.WriteLine("Digite a rua: ");
-                rua = Console.ReadLine();
-                Console.WriteLine("Digite a numero: ");
-                num = int.Parse(Console.ReadLine());
-                Console.WriteLine("Digite o complemento:");
-                compl = Console.ReadLine();
-                Console.WriteLine("Digite o cep:");
-                cep = long.Parse(Console.ReadLine());
-
-                e = new Endereco(rua, num, compl, cep);
-                p = new Pessoa(nome, idade, e);
-
-                Console.WriteLine(p.Imprimir());
-            }
+            Console.ReadKey();
         }
     }
-    class Endereco
+    class Disciplina
     {
-        private string rua;
-        private int numero;
-        private string complemento;
-        private long cep;
+        private string materia;
+        private int carga;
 
-        public Endereco(string rua, int numero, string complemento, long cep)
-        {
-            this.Rua = rua;
-            this.Numero = numero;
-            this.Complemento = complemento;
-            this.Cep = cep;
-        }
-
-        public string Rua
+        public int Carga
         {
             get
             {
-                return rua;
+                return carga;
             }
 
             set
             {
-                rua = value;
+                carga = value;
             }
         }
 
-        public int Numero
+        public string Materia
         {
             get
             {
-                return numero;
+                return materia;
             }
 
             set
             {
-                numero = value;
+                materia = value;
             }
         }
-
-        public string Complemento
+        public Disciplina (string materia, int carga)
         {
-            get
-            {
-                return complemento;
-            }
-
-            set
-            {
-                complemento = value;
-            }
-        }
-
-        public long Cep
-        {
-            get
-            {
-                return cep;
-            }
-
-            set
-            {
-                cep = value;
-            }
+            this.carga = carga;
+            this.materia = materia;
         }
         public string Imprimir()
         {
-            return "Rua: " + this.rua + "N: " + this.numero + "Complemento: " + this.complemento +
-                "CEP: " + this.cep;
+            return "Disciplina: " + this.materia + "Carga horária: " + this.carga;
         }
     }
-    class Pessoa
+    class Aluno
     {
         private string nome;
-        private int idade;
-        private Endereco residencial;
-
-        public Pessoa (string nome, int idade, Endereco residencial)
-        {
-            this.Nome = nome;
-            this.Idade = idade;
-            this.residencial = residencial;
-        }
-
-        public Pessoa()
-        {
-        }
+        private int ra;
+        List<Disciplina> disciplinas;
 
         public string Nome
         {
@@ -141,35 +83,47 @@ namespace Pessoa
             }
         }
 
-        public int Idade
+        public int Ra
         {
             get
             {
-                return idade;
+                return ra;
             }
 
             set
             {
-                idade = value;
+                ra = value;
             }
         }
 
-        internal Endereco Residencial
+        internal List<Disciplina> Disciplinas
         {
             get
             {
-                return residencial;
+                return disciplinas;
             }
 
             set
             {
-                residencial = value;
+                disciplinas = value;
             }
+        }
+        public Aluno (string nome, int ra, List<Disciplina> disc)
+        {
+            this.nome = nome;
+            this.ra = ra;
+            this.disciplinas = disc;
         }
         public string Imprimir()
         {
-            return "Nome:" + this.nome + "\n Idade:" + this.idade + "\n Endereco:" +
-                this.residencial.Imprimir();
+            string saida = this.nome + " " + this.ra + "\n";
+
+            foreach (Disciplina d in this.disciplinas)
+            {
+                saida += d.Imprimir() + "\n";
+            }
+
+            return saida;
         }
     }
 }
