@@ -10,61 +10,41 @@ namespace Partida
     {
         static void Main(string[] args)
         {
-            GerenciarPartidas partidas = new GerenciarPartidas();
+            GerenciadorPartidas partidas = new GerenciadorPartidas();
+            Partida p1 = new Partida(new Time("PSG", 4, "Cavani"), 
+                new Time("Barcelo", 0, "Messi"));
+            Partida p2 = new Partida(new Time("PSG", 1, "Cavani"),
+                new Time("Barcelo", 6, "Messi")); ;
+            Partida p3 = new Partida(new Time("Palmeiras", 2, "Dudu"),
+                new Time("Santos", 1, "Ricardo Oliveira")); ;
+            Partida p4 = new Partida(new Time("Palmeiras", 1, "Dudu"),
+                new Time("Boloviano", 1, "X")); ;
 
-            Partida p1 = new Partida(2, 2);
-            Partida p2 = new Partida(1, 7);
-            Partida p3 = new Partida(0, 0);
-
-            //Grava as partidas na lista
-            partidas.Adicionar(p1);
-            partidas.Adicionar(p2);
-            partidas.Adicionar(p3);
+            partidas.Adiciona(p1);
+            partidas.Adiciona(p2);
+            partidas.Adiciona(p3);
+            partidas.Adiciona(p4);
 
             Console.WriteLine("======================");
-            Console.WriteLine("Total de Empates: " + partidas.TotalEmpates());
+            Console.WriteLine("Total de Partidas:" + partidas.TotalPartidas());
+            Console.WriteLine("Total de Empates:" + partidas.TotalEmpates());
+            Console.WriteLine("% Mandante:" + partidas.PercMandante());
             Console.WriteLine("======================\n\n");
 
             Console.WriteLine(partidas.Listar());
-            Console.WriteLine("Total de Partidas: "+partidas.TotalPartidas());
-            Console.WriteLine("Percentual de vezes: "+partidas.Percentual());
 
             Console.ReadKey();
-        }                
-    }
-    class Partida
-    {
-        private int golsVis;
-        private int golslAnf;
-
-        public Partida(int visitante, int anfitriao)
-        {
-            this.golslAnf = anfitriao;
-            this.golsVis = visitante;
-        }
-
-        public string VerificaVencedor()
-        {
-            if (this.golsVis > this.golslAnf)
-                return "Visitante";
-            else if (this.golslAnf > this.golsVis)
-                return "Anfitriao";
-            else
-                return "Empate";
-        }
-
-        public string Placar()
-        {
-            return golslAnf + "X" + golsVis;
         }
     }
-    class GerenciarPartidas
+    class GerenciadorPartidas
     {
         List<Partida> lista = new List<Partida>();
-        public void Adicionar(Partida p)
+
+        public void Adiciona(Partida p)
         {
             lista.Add(p);
         }
+
         public int TotalEmpates()
         {
             int total = 0;
@@ -78,6 +58,7 @@ namespace Partida
             }
             return total;
         }
+
         public string Listar()
         {
             string saida = "";
@@ -86,24 +67,109 @@ namespace Partida
             {
                 saida += p.Placar() + "\n\n";
             }
+
             return saida;
         }
+
         public int TotalPartidas()
         {
             return lista.Count;
         }
-        public float Percentual()
+
+        public float PercMandante()
         {
-            int total = 0;
+            int totalMand = 0;
 
             foreach (Partida p in lista)
             {
                 if (p.VerificaVencedor().ToUpper().Equals("ANFITRIAO"))
                 {
-                    total++;
-                } 
+                    totalMand++;
+                }
             }
-            return ((float)total / TotalPartidas()) * 100;
+
+            return ((float)totalMand / TotalPartidas()) * 100;
+        }
+    }
+
+    class Partida
+    {
+        private Time mandante;
+        private Time visitante;
+
+        public Partida(Time visitante,Time mandante)
+        {
+            this.visitante = visitante;
+            this.mandante = mandante;
+        }
+
+        public string Placar()
+        {
+            return this.visitante.Nome+ " " + this.visitante.Gols + " " + this.visitante.Atacante 
+                + " x " + this.mandante.Nome + " " + this.mandante.Gols + " " + this.mandante.Atacante;
+        }
+
+        public string VerificaVencedor()
+        {
+            if (this.visitante.Gols> this.mandante.Gols)
+                return "Visitante";
+            else if (this.mandante.Gols > this.visitante.Gols)
+                return "Anfitriao";
+            else
+                return "Empate";
+        }
+    }
+
+    class Time
+    {
+        private string nome;
+        private int gols;
+        private string atacante;
+
+        public string Nome
+        {
+            get
+            {
+                return nome;
+            }
+
+            set
+            {
+                nome = value;
+            }
+        }
+
+        public int Gols
+        {
+            get
+            {
+                return gols;
+            }
+
+            set
+            {
+                gols = value;
+            }
+        }
+
+        public string Atacante
+        {
+            get
+            {
+                return atacante;
+            }
+
+            set
+            {
+                atacante = value;
+            }
+        }
+
+        public Time(string nome, int gols, string atacante)
+        {
+            this.Nome = nome;
+            this.Gols = gols;
+            this.Atacante = atacante;
         }
     }
 }
