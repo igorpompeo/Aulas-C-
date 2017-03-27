@@ -11,14 +11,14 @@ namespace Partida
         static void Main(string[] args)
         {
             GerenciadorPartidas partidas = new GerenciadorPartidas();
-            Partida p1 = new Partida(new Time("PSG", 4, "Cavani"), 
-                new Time("Barcelo", 0, "Messi"));
+            Partida p1 = new Partida(new Time("PSG", 4, "Cavani"),
+                new Time("Barcelona", 0, "Messi"), new DateTime(2017,03,01));
             Partida p2 = new Partida(new Time("PSG", 1, "Cavani"),
-                new Time("Barcelo", 6, "Messi")); ;
+                new Time("Barcelona", 6, "Messi"), new DateTime(2017, 03, 01));
             Partida p3 = new Partida(new Time("Palmeiras", 2, "Dudu"),
-                new Time("Santos", 1, "Ricardo Oliveira")); ;
+                new Time("Santos", 1, "Ricardo Oliveira"), new DateTime(2017, 03, 02));
             Partida p4 = new Partida(new Time("Palmeiras", 1, "Dudu"),
-                new Time("Boloviano", 1, "X")); ;
+                new Time("Boloviano", 1, "X"), new DateTime(2017, 03, 03));
 
             partidas.Adiciona(p1);
             partidas.Adiciona(p2);
@@ -59,6 +59,19 @@ namespace Partida
             return total;
         }
 
+        public string ListarData(DateTime data)
+        {
+            string saida = "";
+
+            foreach (Partida p in lista)
+            {
+                if (p.DataPartida == data)
+                    saida += p.Placar() + "\n\n";
+            }
+
+            return saida;
+        }
+
         public string Listar()
         {
             string saida = "";
@@ -94,24 +107,26 @@ namespace Partida
 
     class Partida
     {
+        public DateTime DataPartida { protected set; get; }
         private Time mandante;
         private Time visitante;
 
-        public Partida(Time visitante,Time mandante)
+        public Partida(Time visitante, Time mandante, DateTime dataPartida)
         {
             this.visitante = visitante;
             this.mandante = mandante;
+            this.DataPartida = dataPartida;
         }
 
         public string Placar()
         {
-            return this.visitante.Nome+ " " + this.visitante.Gols + " " + this.visitante.Atacante 
+            return this.visitante.Nome + " " + this.visitante.Gols + " " + this.visitante.Atacante
                 + " x " + this.mandante.Nome + " " + this.mandante.Gols + " " + this.mandante.Atacante;
         }
 
         public string VerificaVencedor()
         {
-            if (this.visitante.Gols> this.mandante.Gols)
+            if (this.visitante.Gols > this.mandante.Gols)
                 return "Visitante";
             else if (this.mandante.Gols > this.visitante.Gols)
                 return "Anfitriao";
@@ -173,3 +188,4 @@ namespace Partida
         }
     }
 }
+
