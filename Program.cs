@@ -4,71 +4,141 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aluno
+namespace Pessoa
 {
     class Program
     {
         static void Main(string[] args)
         {
-            List<Disciplina> lista = new List<Disciplina>();
-            Disciplina d1 = new Disciplina("Lab. Prog.", 4);
-            Disciplina d2 = new Disciplina("Estrut. Dados", 4);
-            Disciplina d3 = new Disciplina("Eng. Software", 4);
-            lista.Add(d1);
-            lista.Add(d2);
-            lista.Add(d3);
-            Aluno aluno = new Aluno("Aluno1", 23123123, lista);
+            string nome, rua, compl;
+            int idade, num;
+            long cep;
+            Pessoa p;
+            Endereco e;
+            DateTime data;
+            GerenciadorPessoas pessoas = new GerenciadorPessoas();
+            string sair = "S";
 
-            Console.WriteLine(aluno.Imprimir());
+            while (sair.ToUpper().ElementAt(0) == 'S')
+            {
+                Console.WriteLine("Digite o nome:");
+                nome = Console.ReadLine();
+                Console.WriteLine("Digite a idade:");
+                idade = int.Parse(Console.ReadLine());
+                Console.WriteLine("Digite a rua:");
+                rua = Console.ReadLine();
+                Console.WriteLine("Digite o numero:");
+                num = int.Parse(Console.ReadLine());
+                Console.WriteLine("Digite o complemento:");
+                compl = Console.ReadLine();
+                Console.WriteLine("Digite o cep:");
+                cep = long.Parse(Console.ReadLine());
+                Console.WriteLine("Digite a data nasc (dd/mm/aaaa):");
+                data = DateTime.Parse(Console.ReadLine());
+
+                e = new Endereco(rua, num, compl, cep);
+                p = new Pessoa(nome, idade, e, data);
+
+                pessoas.Adicionar(p);
+                Console.WriteLine("Continua?(S/N):");
+                sair = Console.ReadLine();
+            }
+
+            Console.WriteLine(pessoas.Listar());
+
+            Console.WriteLine("Digite a data nasc procurada (dd/mm/aaaa):");
+            Console.WriteLine(pessoas.ListarData(
+                DateTime.Parse(Console.ReadLine())));
+
 
             Console.ReadKey();
         }
     }
-    class Disciplina
+
+    class Endereco
     {
-        private string materia;
-        private int carga;
+        private string rua;
+        private int numero;
+        private string complemento;
+        private long cep;
+        
 
-        public int Carga
+        public string Rua
         {
             get
             {
-                return carga;
+                return rua;
             }
 
             set
             {
-                carga = value;
+                rua = value;
             }
         }
 
-        public string Materia
+        public int Numero
         {
             get
             {
-                return materia;
+                return numero;
             }
 
             set
             {
-                materia = value;
+                numero = value;
             }
         }
-        public Disciplina (string materia, int carga)
+
+        public string Complemento
         {
-            this.carga = carga;
-            this.materia = materia;
+            get
+            {
+                return complemento;
+            }
+
+            set
+            {
+                complemento = value;
+            }
         }
+
+        public long Cep
+        {
+            get
+            {
+                return cep;
+            }
+
+            set
+            {
+                cep = value;
+            }
+        }
+
+        public Endereco (string rua, int num, 
+            string comp, long cep)
+        {
+            this.numero = num;
+            this.rua = rua;
+            this.complemento = comp;
+            this.cep = cep;
+            
+        }
+
         public string Imprimir()
         {
-            return "Disciplina: " + this.materia + "Carga horária: " + this.carga;
+            return this.rua + ", " + this.numero + "-" + this.complemento +
+                "-" + this.cep;
         }
+
     }
-    class Aluno
+
+    class Pessoa
     {
         private string nome;
-        private int ra;
-        List<Disciplina> disciplinas;
+        private int idade;
+        private Endereco residencial;
+        public DateTime DataNasc { protected set; get; }
 
         public string Nome
         {
@@ -83,44 +153,76 @@ namespace Aluno
             }
         }
 
-        public int Ra
+        public int Idade
         {
             get
             {
-                return ra;
+                return idade;
             }
 
             set
             {
-                ra = value;
+                idade = value;
             }
         }
 
-        internal List<Disciplina> Disciplinas
+        internal Endereco Residencial
         {
             get
             {
-                return disciplinas;
+                return residencial;
             }
 
             set
             {
-                disciplinas = value;
+                residencial = value;
             }
         }
-        public Aluno (string nome, int ra, List<Disciplina> disc)
+
+        public Pessoa(string nome, int idade, Endereco end, DateTime data)
         {
             this.nome = nome;
-            this.ra = ra;
-            this.disciplinas = disc;
+            this.idade = idade;
+            this.residencial = end;
+            this.DataNasc = data;
         }
+
         public string Imprimir()
         {
-            string saida = this.nome + " " + this.ra + "\n";
+            return "Nome:" + this.nome + "\n Idade:" + this.idade + "\n Endereco:" +
+                this.residencial.Imprimir() + " " + this.DataNasc.ToShortDateString();
+        }
+    }
 
-            foreach (Disciplina d in this.disciplinas)
+    class GerenciadorPessoas
+    {
+        private List<Pessoa> lista = new List<Pessoa>();
+
+        public void Adicionar (Pessoa p)
+        {
+            lista.Add(p);
+        }
+
+        public String Listar()
+        {
+            String saida = "";
+
+            foreach(Pessoa p in lista)
             {
-                saida += d.Imprimir() + "\n";
+                saida += p.Imprimir() + "\n";
+            }
+
+            return saida;
+        }
+
+        public String ListarData(DateTime data)
+        {
+            String saida = "";
+
+            foreach (Pessoa p in lista)
+            {
+                if (p.DataNasc == data)
+                    saida += p.Imprimir() + "\n";
             }
 
             return saida;
