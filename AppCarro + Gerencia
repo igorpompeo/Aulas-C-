@@ -4,46 +4,71 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppCarro
+namespace ConsoleApplication2
 {
-    class Program
+    class AppCarro
     {
         static void Main(string[] args)
         {
-            Gerencia gerencia = new Gerencia();
-
+            GerenciadorCarro gerenciador = new GerenciadorCarro();
             Carro car1 = new Carro();
             Carro car2 = new Carro("VW", "Gol", 2010);
-            Carro car3 = new Carro("BMW", "X1", 2017);
+            Carro car3 = new Pickup("FIAT", "Strada", 2011,true,1000);
 
-            gerencia.Adicionar(car1);
-            gerencia.Adicionar(car2);
-            gerencia.Adicionar(car3);
+            gerenciador.Adicionar(car1);
+            gerenciador.Adicionar(car2);
+            gerenciador.Adicionar(car3);
 
-            Console.WriteLine(gerencia.Listar());
-            Console.WriteLine("Total de carros por ano: "+gerencia.TotalPorAno(2010));
+            Console.WriteLine(gerenciador.Listar());
 
-            Console.WriteLine(car1.Imprimir());
-            Console.WriteLine(car2.Imprimir());
+            Console.WriteLine("Digite um ano:");
+            Console.WriteLine("Total de carros no ano: " +
+                gerenciador.TotalPorAno(int.Parse(Console.ReadLine())));
+            
+            Console.ReadKey();
+        }
+    }
 
-            while (true)
+    class GerenciadorCarro
+    {
+        private List<Carro> lista = new List<Carro>();
+
+        public void Adicionar(Carro c)
+        {
+            lista.Add(c);
+        }
+
+        public int TotalPorAno(int ano)
+        {
+            int total = 0;
+
+            foreach(Carro c in lista)
             {
-                Console.WriteLine("Digite o quanto quer acelerar:");
-                car1.Acelerar(int.Parse(Console.ReadLine()));
-                Console.WriteLine("Velocidade:" + car1.VelocidadeAtual);
-                car1.Frear();
-                car1.Frear();
-                car1.Frear();
-                Console.WriteLine("Velocidade depois de frear:" + car1.VelocidadeAtual);
+                if (c.Ano == ano)
+                {
+                    total++;
+                }
             }
 
-            Console.ReadKey();
+            return total;
+        }
+
+        public string Listar()
+        {
+            string saida = "";
+
+            foreach (Carro c in lista)
+            {
+                saida += c + "\n\n";
+            }
+
+            return saida;
         }
     }
 
     class Carro
     {
-        public string Marca { get; private set; }
+        public string Marca { get; private set;}
         public string Modelo { get; set; }
         private int ano;
         public int VelocidadeAtual { get; private set; }
@@ -61,6 +86,7 @@ namespace AppCarro
             this.Modelo = modelo;
             this.Ano = ano;
         }
+     
 
         public int Ano
         {
@@ -79,12 +105,12 @@ namespace AppCarro
             }
         }
 
-        public string Imprimir()
+        public override string ToString()
         {
             return "Marca:" + this.Marca + " Modelo:" + this.Modelo + " Ano:" + this.Ano;
         }
 
-        public void Acelerar(int veloc)
+        public virtual void Acelerar (int veloc)
         {
             VelocidadeAtual = VelocidadeAtual + veloc;
         }
@@ -94,36 +120,50 @@ namespace AppCarro
             VelocidadeAtual = VelocidadeAtual - 1;
         }
     }
-    class Gerencia
+
+    class Pickup : Carro
+    {
+        private bool cacamba;
+        private float litros;
+
+        public Pickup (string marca, string modelo, int ano,
+            bool cacamba, float litros)
+            :base (marca, modelo, ano)
         {
-            List<Carro> lista = new List<Carro>();
-            public void Adicionar(Carro c)
-        {
-            lista.Add(c);
+            this.cacamba = cacamba;
+            this.Litros = litros;
         }
-            public int TotalPorAno(int ano)
-            {
-                int total = 0;
 
-                foreach (Carro c in lista)
-                {
-                    //Variavel.propriedade igual paramêtro
-                    if (c.Ano == ano)
-                    {
-                        total++;
-                    }
-                }
-                return total;
-            }
-            public string Listar()
+        public float Litros
+        {
+            get
             {
-                string saida = "";
-
-                foreach (Carro c in lista)
-                {
-                    saida += c.Imprimir() + "\n";
-                }
-                return saida;
+                return litros;
             }
+
+            set
+            {
+                litros = value;
+            }
+        }
+
+        public string EstadoCacamba()
+        {
+            if (this.cacamba)
+                return "Ocupada";
+            else
+                return "Vazia";
+        }
+
+        public override void Acelerar(int veloc)
+        {
+            base.Acelerar(veloc + 2);
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + "\n" + this.cacamba + 
+                " " + this.litros;
         }
     }
+}
