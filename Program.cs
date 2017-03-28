@@ -4,228 +4,88 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pessoa
+namespace ContaCorrente
 {
     class Program
     {
         static void Main(string[] args)
         {
-            string nome, rua, compl;
-            int idade, num;
-            long cep;
-            Pessoa p;
-            Endereco e;
-            DateTime data;
-            GerenciadorPessoas pessoas = new GerenciadorPessoas();
-            string sair = "S";
+            Conta cc = new Conta(1, "Fulano");
+            Conta ccExp = new Especial(2, "Cicrano",300);
 
-            while (sair.ToUpper().ElementAt(0) == 'S')
-            {
-                Console.WriteLine("Digite o nome:");
-                nome = Console.ReadLine();
-                Console.WriteLine("Digite a idade:");
-                idade = int.Parse(Console.ReadLine());
-                Console.WriteLine("Digite a rua:");
-                rua = Console.ReadLine();
-                Console.WriteLine("Digite o numero:");
-                num = int.Parse(Console.ReadLine());
-                Console.WriteLine("Digite o complemento:");
-                compl = Console.ReadLine();
-                Console.WriteLine("Digite o cep:");
-                cep = long.Parse(Console.ReadLine());
-                Console.WriteLine("Digite a data nasc (dd/mm/aaaa):");
-                data = DateTime.Parse(Console.ReadLine());
+            cc.Depositar(200);
+            cc.Sacar(300);
+            Console.WriteLine(cc);
 
-                e = new Endereco(rua, num, compl, cep);
-                p = new Pessoa(nome, idade, e, data);
-
-                pessoas.Adicionar(p);
-                Console.WriteLine("Continua?(S/N):");
-                sair = Console.ReadLine();
-            }
-
-            Console.WriteLine(pessoas.Listar());
-
-            Console.WriteLine("Digite a data nasc procurada (dd/mm/aaaa):");
-            Console.WriteLine(pessoas.ListarData(
-                DateTime.Parse(Console.ReadLine())));
-
+            ccExp.Depositar(200);
+            ccExp.Sacar(300);
+            Console.WriteLine(ccExp);
 
             Console.ReadKey();
+
         }
     }
 
-    class Endereco
+    class Conta
     {
-        private string rua;
-        private int numero;
-        private string complemento;
-        private long cep;
-        
+        public int Numero { set; get; }
+        public string Nome { set; get; }
+        public DateTime DataAbert { protected set; get; }
+        public double Saldo { protected set; get; }
 
-        public string Rua
+        public Conta(int num, string nome)
         {
-            get
-            {
-                return rua;
-            }
-
-            set
-            {
-                rua = value;
-            }
+            this.Numero = num;
+            this.Nome = nome;
+            this.DataAbert = DateTime.Now;
+            this.Saldo = 0;
         }
 
-        public int Numero
+        public void Depositar(double valor)
         {
-            get
-            {
-                return numero;
-            }
-
-            set
-            {
-                numero = value;
-            }
+            this.Saldo = this.Saldo + valor;
         }
 
-        public string Complemento
+        public virtual Boolean  Sacar(double valor)
         {
-            get
-            {
-                return complemento;
-            }
+            if (valor > this.Saldo)
+                return false;
 
-            set
-            {
-                complemento = value;
-            }
+            this.Saldo = this.Saldo - valor;
+
+            return true;
         }
 
-        public long Cep
+        public override string ToString()
         {
-            get
-            {
-                return cep;
-            }
-
-            set
-            {
-                cep = value;
-            }
+            return this.Numero + " " + this.Nome + "(" + this.DataAbert.ToShortDateString() + ")"  
+                + " - " + this.Saldo;
         }
-
-        public Endereco (string rua, int num, 
-            string comp, long cep)
-        {
-            this.numero = num;
-            this.rua = rua;
-            this.complemento = comp;
-            this.cep = cep;
-            
-        }
-
-        public string Imprimir()
-        {
-            return this.rua + ", " + this.numero + "-" + this.complemento +
-                "-" + this.cep;
-        }
-
     }
 
-    class Pessoa
+    class Especial : Conta
     {
-        private string nome;
-        private int idade;
-        private Endereco residencial;
-        public DateTime DataNasc { protected set; get; }
+        private double limite;
 
-        public string Nome
+        public Especial (int num, string nome, double lim)
+            : base(num, nome)
         {
-            get
-            {
-                return nome;
-            }
-
-            set
-            {
-                nome = value;
-            }
+            this.limite = lim;
         }
 
-        public int Idade
+        public override bool Sacar(double valor)
         {
-            get
-            {
-                return idade;
-            }
+            if (valor > (this.Saldo + this.limite))
+                return false;
 
-            set
-            {
-                idade = value;
-            }
+            this.Saldo = this.Saldo - valor;
+            return true;
         }
 
-        internal Endereco Residencial
+        public override string ToString()
         {
-            get
-            {
-                return residencial;
-            }
-
-            set
-            {
-                residencial = value;
-            }
-        }
-
-        public Pessoa(string nome, int idade, Endereco end, DateTime data)
-        {
-            this.nome = nome;
-            this.idade = idade;
-            this.residencial = end;
-            this.DataNasc = data;
-        }
-
-        public string Imprimir()
-        {
-            return "Nome:" + this.nome + "\n Idade:" + this.idade + "\n Endereco:" +
-                this.residencial.Imprimir() + " " + this.DataNasc.ToShortDateString();
+            return base.ToString() + "limite " + this.limite;
         }
     }
 
-    class GerenciadorPessoas
-    {
-        private List<Pessoa> lista = new List<Pessoa>();
-
-        public void Adicionar (Pessoa p)
-        {
-            lista.Add(p);
-        }
-
-        public String Listar()
-        {
-            String saida = "";
-
-            foreach(Pessoa p in lista)
-            {
-                saida += p.Imprimir() + "\n";
-            }
-
-            return saida;
-        }
-
-        public String ListarData(DateTime data)
-        {
-            String saida = "";
-
-            foreach (Pessoa p in lista)
-            {
-                if (p.DataNasc == data)
-                    saida += p.Imprimir() + "\n";
-            }
-
-            return saida;
-        }
-    }
 }
