@@ -10,7 +10,25 @@ namespace Exercicio2
  	{
 		static void Main(string[] args)
 		{
+			Funcionario f1 = new Funcionario ("Igor","1234567-8");
+			Funcionario v1 = new Vendedor ("Thor","xxxxxxx-x",1000);
+			Funcionario a1 = new Administrador ("Thor","xxxxxxx-x",1000);
 
+			v1.Vendas();
+			v1.totalVendas();
+			v1.Vendas();
+			v1.totalVendas();
+			v1.Vendas();
+			v1.totalVendas();
+			v1.Imprimi();
+
+			a1.horasExtra();
+			a1.totalHoraExtra();
+			a1.horasExtra();
+			a1.totalHoraExtra();
+			a1.horasExtra();
+			a1.totalHoraExtra();
+			a1.Imprimi();
 		}
 	}
 	class Funcionario
@@ -89,7 +107,7 @@ namespace Exercicio2
  			Zera();
 		}
  	}
- 	
+
  	class Administrador : Funcionario
  	{
  		private double salario;
