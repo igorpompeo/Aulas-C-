@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Exercicio2
 {
 	class Program
-	{
+ 	{
 		static void Main(string[] args)
 		{
 
@@ -17,78 +17,120 @@ namespace Exercicio2
 	{
 		public string nome, RG;
 
-		public void Funcionario(string nome, string rg)
-		{
-			this.nome = nome;
-			this.RG = rg;
+ 		public void Funcionario(string nome, string rg)
+ 		{
+ 			this.nome = nome;
+ 			this.RG = rg;
+ 		}
+ 		public string Nome
+ 		{
+ 			get
+ 			{
+ 				return ano;
+ 			}
+ 			set
+ 			{
+ 				nome = value;
+ 			}
+ 		}
+ 		public string Rg
+ 		{
+ 			get
+ 			{
+ 				return RG;
+ 			}
+ 			set
+ 			{
+ 				RG = value;
+ 			}
+ 		}
+ 	}
+ 
+ 	class Vendedor : Funcionario
+ 	{
+ 		private double salario;
+ 		private int comissaoMes;
+ 		private boolean vendas;
+ 
+ 		public Vendedor (string nome, string rg, double sal) : base(nome, rg)
+ 		{
+ 			this.salario = sal;
+ 		}
+ 		
+ 		public double Salario
+ 		{
+ 			get
+ 			{
+ 				return salario;
+ 			}
+ 			set
+			{
+ 				salario = value;
+ 			}
+ 		}
+ 		public void Vendas()
+ 		{
+ 			vendas = true;
+ 		}
+ 		public void totalVendas()
+ 		{
+ 			if(vendas != false)
+ 			{
+ 				comissaoMes++;
+ 			}
+ 		}
+ 		public void Zera()
+ 		{
+ 			comissaoMes = 0;
+ 		}
+ 		public double Imprimi()
+ 		{
+ 			return salario = salario + (comissaoMes*0.05);
+ 			Zera();
 		}
-		public string Nome
-		{
-			get
-			{
-				return ano;
-			}
-			set
-			{
-				nome = value;
-			}
-		}
-		public string Rg
-		{
-			get
-			{
-				return RG;
-			}
-			set
-			{
-				RG = value;
-			}
-		}
-	}
+ 	}
+ 	
+ 	class Administrador : Funcionario
+ 	{
+ 		private double salario;
+ 		private int horaExtra;
+ 		private boolean extra;
 
-	class Vendedor : Funcionario
-	{
-		private double salario;
-		private int comissaoMes;
-		private boolean vendas;
+ 		public Administrador (string nome, string rg, double sal) : base(nome, rg)
+ 		{
+ 			this.salario = sal;
+ 		}
 
-		public Vendedor (string nome, string rg, double sal) : base(nome, rg)
-		{
-			this.salario = sal;
-		}
-		
-		public double Salario
-		{
-			get
+ 		public double Salario
+ 		{
+ 			get
+ 			{
+ 				return salario;
+ 			}
+ 			set
 			{
-				return salario;
-			}
-			set
-			{
-				salario = value;
-			}
+ 				salario = value;
+ 			}
+ 		}
+ 		public void horasExtra()
+ 		{
+ 			extra = true;
+ 		}
+ 		public void totalHoraExtra()
+ 		{
+ 			if(extra != false)
+ 			{
+ 				horaExtra++;
+ 			}
+ 		}
+ 		public void Zera()
+ 		{
+ 			horaExtra = 0;
+ 		}
+ 		public double Imprimi()
+ 		{
+ 			return salario = salario + (horaExtra*1/100);
+ 			Zera();
 		}
-		public void Vendas()
-		{
-			vendas = true;
-		}
-		public void totalVendas()
-		{
-			if(vendas != false)
-			{
-				comissaoMes++;
-			}
-		}
-		public void Zera()
-		{
-			comissaoMes = 0;
-		}
-		public double Imprimi()
-		{
-			return salario = salario + (comissaoMes*0.05);
-			Zera();
-		}
-
-	}
-
+ 	}
 }
