@@ -103,8 +103,9 @@ namespace Exercicio2
  		}
  		public double Imprimi()
  		{
- 			return salario = salario + (comissaoMes*0.05);
- 			Zera();
+ 			double aux = comissaoMes;
+			Zera();
+			return salario = salario + (aux*0.05); 			
 		}
  	}
 
@@ -147,8 +148,9 @@ namespace Exercicio2
  		}
  		public double Imprimi()
  		{
- 			return salario = (salario/100) * horaExtra ;
- 			Zera();
+ 			double aux = horaExtra;
+			Zera();
+			return salario = (salario/100) * aux ; 			
 		}
  	}
 }
