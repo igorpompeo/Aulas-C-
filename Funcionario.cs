@@ -150,7 +150,7 @@ namespace Exercicio2
  		{
  			double aux = horaExtra;
 			Zera();
-			return salario = (salario/100) * aux ; 			
+			return salario = ((salario/100) * aux) ; 			
 		}
  	}
 }
