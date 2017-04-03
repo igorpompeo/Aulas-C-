@@ -147,7 +147,7 @@ namespace Exercicio2
  		}
  		public double Imprimi()
  		{
- 			return salario = salario + (horaExtra*1/100);
+ 			return salario = (salario/100) * horaExtra ;
  			Zera();
 		}
  	}
